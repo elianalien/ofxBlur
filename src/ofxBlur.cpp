@@ -267,7 +267,7 @@ void ofxBlur::end() {
 		// horizontal blur ping into pong
 		curPong.begin();
 		blurShader.begin();
-		blurShader.setUniformTexture("source", curPing.getTexture(), 0);
+		blurShader.setUniformTexture("source", curPing.getTextureReference(), 0);
 		blurShader.setUniform2f("direction", xDirection.x, xDirection.y);
 		curPing.draw(0, 0);
 		blurShader.end();
@@ -276,7 +276,7 @@ void ofxBlur::end() {
 		// vertical blur pong into ping
 		curPing.begin();
 		blurShader.begin();
-		blurShader.setUniformTexture("source", curPong.getTexture(), 0);
+		blurShader.setUniformTexture("source", curPong.getTextureReference(), 0);
 		blurShader.setUniform2f("direction", yDirection.x, yDirection.y);
 		curPong.draw(0, 0);
 		blurShader.end();
@@ -290,13 +290,13 @@ void ofxBlur::end() {
 
         ofPlanePrimitive plane;
         plane.set(w, h);
-        plane.mapTexCoordsFromTexture(ping[0].getTexture());
+        plane.mapTexCoordsFromTexture(ping[0].getTextureReference());
 		base.begin();
 		combineShader.begin();
 		for(int i = 0; i < ping.size(); i++) {
 			string name = "s" + ofToString(i);
             combineShader.setUniformTexture(name.c_str(),
-                                            ping[i].getTexture(),
+                                            ping[i].getTextureReference(),
                                             1 + i);
         }
 		combineShader.setUniform1f("brightness", brightness);
@@ -316,7 +316,7 @@ void ofxBlur::end() {
 }
 
 ofTexture& ofxBlur::getTexture() {
-	return base.getTexture();
+	return base.getTextureReference();
 }
 
 void ofxBlur::draw() {
